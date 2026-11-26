@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matchday - Live Scores, Fixtures and Results</title>
+  <!-- Fonts from Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <!-- Prevent Dark Mode Flash -->
+  <script>
+    const savedTheme = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  </script>
+</head>
+<body data-root="./" data-page="Matches">
+  <header id="site-header"></header>
+
+  <main class="page">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Matches and scores</h1>
+        <p class="page-sub" id="updated"></p>
+      </div>
+    </div>
+    
+    <div class="notice" id="sample-notice" hidden>Sample data: scores and fixtures below are placeholders while we build the site.</div>
+
+    <div class="filters">
+      <label>Sport
+        <select id="f-sport"><option>Football</option></select>
+      </label>
+      <label>League
+        <select id="f-league"><option value="all">All leagues</option></select>
+      </label>
+      <label>Date
+        <select id="f-date"><option value="all">All dates</option></select>
+      </label>
+    </div>
+
+    <div class="layout">
+      <section id="matches"></section>
+      <aside>
+        <div class="panel"><h3>Leagues</h3><ul class="side-list" id="side-leagues"></ul></div>
+        <div class="panel"><h3>Your next reminders</h3><ul class="side-list" id="side-reminders"></ul></div>
+      </aside>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="data/matches-data.js"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="home.js"></script>
+</body>
+</html>
