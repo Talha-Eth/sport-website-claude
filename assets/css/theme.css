@@ -1694,3 +1694,102 @@ body.nav-open { overflow: hidden; }
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- 27. Custom dropdowns ---------- */
+.select.dd-native {
+  position: absolute !important; width: 1px !important; height: 1px !important;
+  padding: 0 !important; margin: -1px !important; border: 0 !important;
+  opacity: 0; pointer-events: none; overflow: hidden; clip: rect(0, 0, 0, 0);
+}
+.dd-trigger {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-width: 0; min-height: 42px;
+  padding: 9px 10px 9px 14px; border: 1px solid var(--line); border-radius: 12px;
+  background: linear-gradient(180deg, var(--card), var(--surface-2));
+  color: var(--ink); font-size: 0.92rem; font-weight: 500; text-align: left;
+  box-shadow: 0 1px 2px rgba(16, 34, 25, 0.05); cursor: pointer; transition: var(--transition);
+}
+.dd-trigger:hover { border-color: var(--line-strong); box-shadow: var(--shadow-sm); }
+.dd-trigger:focus-visible, .dd-trigger[aria-expanded="true"] {
+  outline: none; border-color: var(--pitch); box-shadow: 0 0 0 3px rgba(14, 90, 58, 0.16);
+}
+.dd-trigger:disabled { opacity: 0.5; cursor: not-allowed; }
+.dd-value { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dd-value.is-placeholder { color: var(--muted-2); }
+.dd-chevron {
+  flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--pitch-soft); color: var(--pitch); transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.dd-chevron svg { width: 13px; height: 13px; }
+.dd-trigger[aria-expanded="true"] .dd-chevron { transform: rotate(180deg); background: var(--pitch); color: #fff; }
+[data-theme="dark"] .dd-chevron { color: var(--gold); }
+[data-theme="dark"] .dd-trigger[aria-expanded="true"] .dd-chevron { background: var(--gold); color: #14211b; }
+
+.compare-pick .dd-trigger { flex: 1; min-width: 0; }
+.reminder-actions .dd-trigger { max-width: 170px; }
+.reminder-delivery .dd-trigger {
+  text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 0.82rem; padding: 6px 8px 6px 10px; min-height: 0;
+}
+
+.dd-panel {
+  position: fixed; z-index: 300; display: flex; flex-direction: column; min-width: 200px; max-height: 340px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: var(--shadow-lg); padding: 6px; overflow: hidden;
+  opacity: 0; transform: translateY(-6px) scale(0.98); transform-origin: top center;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.dd-panel.is-up { transform-origin: bottom center; transform: translateY(6px) scale(0.98); }
+.dd-panel.is-open { opacity: 1; transform: none; }
+.dd-search {
+  flex: none; width: 100%; margin: 2px 0 6px; padding: 9px 12px; border: 1px solid var(--line);
+  border-radius: 10px; background: var(--surface-2); color: var(--ink); font-size: 0.9rem; outline: none;
+}
+.dd-search:focus { border-color: var(--pitch); background: var(--card); box-shadow: 0 0 0 3px rgba(14, 90, 58, 0.14); }
+.dd-list {
+  position: relative; flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  padding: 2px; scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent;
+}
+.dd-group {
+  padding: 10px 10px 4px; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em;
+  font-weight: 700; color: var(--muted-2);
+}
+.dd-option {
+  display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 9px;
+  font-size: 0.9rem; color: var(--ink); cursor: pointer; transition: background 0.12s ease;
+}
+.dd-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dd-option.is-active { background: var(--surface-2); }
+.dd-option[aria-selected="true"] { background: var(--pitch-soft); color: var(--pitch); font-weight: 700; }
+[data-theme="dark"] .dd-option[aria-selected="true"] { color: var(--gold); }
+.dd-option[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+.dd-check { flex: none; width: 16px; height: 16px; opacity: 0; }
+.dd-option[aria-selected="true"] .dd-check { opacity: 1; }
+.dd-empty { padding: 16px; text-align: center; color: var(--muted); font-size: 0.86rem; }
+.dd-title { display: none; }
+.dd-backdrop { position: fixed; inset: 0; z-index: 299; background: rgba(7, 20, 14, 0.45); opacity: 0; transition: opacity 0.2s ease; }
+.dd-backdrop.is-open { opacity: 1; }
+
+/* phones: dropdown becomes a bottom sheet */
+@media (max-width: 560px) {
+  .dd-panel {
+    left: 0 !important; right: 0 !important; top: auto !important; bottom: 0 !important;
+    width: auto !important; max-height: 70vh !important; border-radius: 20px 20px 0 0;
+    padding: 8px 10px calc(14px + env(safe-area-inset-bottom)); transform: translateY(100%); transform-origin: bottom;
+  }
+  .dd-panel.is-open { transform: none; }
+  .dd-panel::before { content: ""; flex: none; width: 40px; height: 4px; border-radius: 99px; background: var(--line-strong); margin: 2px auto 6px; }
+  .dd-title { display: block; padding: 6px 8px 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  .dd-option { padding: 13px 12px; font-size: 1rem; }
+  .dd-search { font-size: 16px; }
+}
+
+/* ---------- 28. Fix: mobile search input hidden under results ---------- */
+@media (max-width: 960px) {
+  body.search-open .search-panel { top: calc(100% + 62px); max-height: min(52vh, 440px); }
+  body.search-open .header-search { border-color: var(--pitch); box-shadow: var(--shadow-lg); }
+  body.search-open .header-search input { font-size: 16px; } /* stops iOS zoom-on-focus */
+}
+
+/* ---------- 29. Fix: reminders settings overlapping the panel below ---------- */
+.reminder-settings { position: static; top: auto; }
+.reminders-layout > aside { display: flex; flex-direction: column; gap: 16px; }
+.reminders-layout > aside .panel + .panel { margin-top: 0; }

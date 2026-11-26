@@ -995,3 +995,246 @@ const Matchday = (() => {
     setupTabs,
   };
 })();
+
+
+/* ============================================================
+   Custom dropdowns: replaces every <select class="select"> with a
+   styled dropdown. The real <select> stays hidden underneath, so
+   page scripts that read .value or listen for "change" keep working.
+   ============================================================ */
+(() => {
+  const SVG = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+  const CHEVRON = `<svg ${SVG}><polyline points="6 9 12 15 18 9"/></svg>`;
+  const CHECK = `<svg class="dd-check" ${SVG}><polyline points="20 6 9 17 4 12"/></svg>`;
+  const valueProp = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value");
+  const sheetMode = () => window.matchMedia("(max-width: 560px)").matches;
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  let current = null; // dropdown that is open right now
+
+  function enhance(select) {
+    if (select.dataset.dd) return;
+    select.dataset.dd = "1";
+    const labelEl = select.id ? document.querySelector(`label[for="${select.id}"]`) : null;
+    const title = (labelEl && labelEl.textContent.trim()) || select.getAttribute("aria-label") || "Choose an option";
+
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "dd-trigger";
+    trigger.setAttribute("aria-haspopup", "listbox");
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.setAttribute("aria-label", title);
+    trigger.innerHTML = `<span class="dd-value"></span><span class="dd-chevron">${CHEVRON}</span>`;
+    select.parentNode.insertBefore(trigger, select);
+    select.classList.add("dd-native");
+    select.tabIndex = -1;
+    select.setAttribute("aria-hidden", "true");
+    const valueEl = trigger.querySelector(".dd-value");
+
+    const sync = () => {
+      const option = select.options[select.selectedIndex];
+      valueEl.textContent = option ? option.textContent.trim() : "";
+      valueEl.classList.toggle("is-placeholder", Boolean(option) && option.value === "");
+      trigger.disabled = select.disabled;
+    };
+    // keep the trigger in step when page code sets select.value or rebuilds the options
+    Object.defineProperty(select, "value", {
+      configurable: true,
+      get() { return valueProp.get.call(this); },
+      set(v) { valueProp.set.call(this, v); sync(); },
+    });
+    new MutationObserver(sync).observe(select, { childList: true, subtree: true, attributes: true, attributeFilter: ["disabled", "selected"] });
+    select.addEventListener("change", sync);
+    sync();
+
+    function open() {
+      if (select.disabled) return;
+      if (current) current.close(false);
+      const sheet = sheetMode();
+
+      const items = [];
+      [...select.children].forEach((node) => {
+        if (node.tagName === "OPTGROUP") {
+          items.push({ group: node.label });
+          [...node.children].forEach((o) => items.push({ option: o }));
+        } else if (node.tagName === "OPTION") {
+          items.push({ option: node });
+        }
+      });
+      const searchable = items.filter((i) => i.option).length > 12;
+
+      const panel = document.createElement("div");
+      panel.className = "dd-panel";
+      panel.innerHTML = `${sheet ? `<div class="dd-title">${esc(title)}</div>` : ""}
+        ${searchable ? '<input class="dd-search" type="search" placeholder="Search…" autocomplete="off" aria-label="Filter options">' : ""}
+        <div class="dd-list" role="listbox" aria-label="${esc(title)}">${items.map((item, i) => (item.group !== undefined
+          ? `<div class="dd-group" role="presentation">${esc(item.group)}</div>`
+          : `<div class="dd-option" role="option" data-i="${i}" aria-selected="${item.option.selected}"${item.option.disabled ? ' aria-disabled="true"' : ""}><span class="dd-label">${esc(item.option.textContent.trim())}</span>${CHECK}</div>`)).join("")}</div>
+        <p class="dd-empty" hidden>No matches</p>`;
+
+      const backdrop = sheet ? document.createElement("div") : null;
+      if (backdrop) { backdrop.className = "dd-backdrop"; document.body.appendChild(backdrop); }
+      document.body.appendChild(panel);
+
+      const list = panel.querySelector(".dd-list");
+      const search = panel.querySelector(".dd-search");
+      const empty = panel.querySelector(".dd-empty");
+      const optionEls = [...list.querySelectorAll(".dd-option")];
+      const visible = () => optionEls.filter((el) => !el.hidden && el.getAttribute("aria-disabled") !== "true");
+
+      let active = null;
+      const setActive = (el, scroll = true) => {
+        if (active) active.classList.remove("is-active");
+        active = el;
+        if (el) { el.classList.add("is-active"); if (scroll) el.scrollIntoView({ block: "nearest" }); }
+      };
+      const move = (delta) => {
+        const v = visible();
+        if (!v.length) return;
+        let i = v.indexOf(active);
+        i = i === -1 ? (delta > 0 ? 0 : v.length - 1) : Math.min(v.length - 1, Math.max(0, i + delta));
+        setActive(v[i]);
+      };
+
+      const position = () => {
+        if (sheet) return;
+        const r = trigger.getBoundingClientRect();
+        const below = window.innerHeight - r.bottom - 14;
+        const above = r.top - 14;
+        const up = below < 220 && above > below;
+        const width = Math.min(Math.max(r.width, 220), window.innerWidth - 16);
+        panel.style.width = `${width}px`;
+        panel.style.left = `${Math.min(Math.max(8, r.left), window.innerWidth - width - 8)}px`;
+        panel.style.maxHeight = `${Math.max(160, Math.min(340, up ? above : below))}px`;
+        if (up) { panel.style.top = "auto"; panel.style.bottom = `${window.innerHeight - r.top + 6}px`; }
+        else { panel.style.bottom = "auto"; panel.style.top = `${r.bottom + 6}px`; }
+        panel.classList.toggle("is-up", up);
+      };
+
+      let closed = false;
+      let typed = "";
+      let typedTimer = null;
+
+      const onOutside = (e) => {
+        if (e.target instanceof Node && !panel.contains(e.target) && !trigger.contains(e.target)) close(false);
+      };
+      const onReflow = (e) => {
+        if (e.target instanceof Node && panel.contains(e.target)) return;
+        position();
+      };
+      const onKey = (e) => {
+        const k = e.key;
+        const stop = () => { e.preventDefault(); e.stopPropagation(); };
+        if (k === "Escape") { stop(); close(true); }
+        else if (k === "Tab") close(false);
+        else if (k === "ArrowDown") { stop(); move(1); }
+        else if (k === "ArrowUp") { stop(); move(-1); }
+        else if (k === "Enter") { stop(); choose(active); }
+        else if (!search && k === "Home") { stop(); setActive(visible()[0] || null); }
+        else if (!search && k === "End") { stop(); const v = visible(); setActive(v[v.length - 1] || null); }
+        else if (!search && k.length === 1 && k !== " " && !e.ctrlKey && !e.metaKey && !e.altKey) {
+          stop();
+          typed += k.toLowerCase();
+          clearTimeout(typedTimer);
+          typedTimer = setTimeout(() => { typed = ""; }, 650);
+          const hit = visible().find((el) => el.textContent.trim().toLowerCase().startsWith(typed));
+          if (hit) setActive(hit);
+        }
+      };
+
+      function close(refocus) {
+        if (closed) return;
+        closed = true;
+        document.removeEventListener("keydown", onKey, true);
+        document.removeEventListener("pointerdown", onOutside, true);
+        window.removeEventListener("resize", onReflow);
+        window.removeEventListener("scroll", onReflow, true);
+        panel.classList.remove("is-open");
+        if (backdrop) backdrop.classList.remove("is-open");
+        trigger.setAttribute("aria-expanded", "false");
+        setTimeout(() => { panel.remove(); if (backdrop) backdrop.remove(); }, 200);
+        if (current && current.panel === panel) current = null;
+        if (refocus) trigger.focus({ preventScroll: true });
+      }
+
+      function choose(el) {
+        if (!el || el.getAttribute("aria-disabled") === "true") return;
+        const option = items[Number(el.dataset.i)].option;
+        const changed = select.selectedIndex !== option.index;
+        select.selectedIndex = option.index;
+        sync();
+        close(true);
+        if (changed) {
+          select.dispatchEvent(new Event("input", { bubbles: true }));
+          select.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+      }
+
+      list.addEventListener("mousedown", (e) => e.preventDefault());
+      list.addEventListener("click", (e) => choose(e.target.closest(".dd-option")));
+      list.addEventListener("mouseover", (e) => {
+        const el = e.target.closest(".dd-option");
+        if (el && el.getAttribute("aria-disabled") !== "true") setActive(el, false);
+      });
+      if (search) {
+        search.addEventListener("input", () => {
+          const q = search.value.trim().toLowerCase();
+          let header = null;
+          let shown = 0;
+          [...list.children].forEach((el) => {
+            if (el.classList.contains("dd-group")) { header = el; el.hidden = true; return; }
+            const match = !q || el.textContent.toLowerCase().includes(q);
+            el.hidden = !match;
+            if (match) { shown += 1; if (header) header.hidden = false; }
+          });
+          empty.hidden = shown > 0;
+          setActive(visible()[0] || null, false);
+        });
+      }
+
+      position();
+      trigger.setAttribute("aria-expanded", "true");
+      const selectedEl = optionEls.find((el) => items[Number(el.dataset.i)].option.selected);
+      setActive(selectedEl || visible()[0] || null, false);
+      if (selectedEl) list.scrollTop = Math.max(0, selectedEl.offsetTop - list.clientHeight / 2 + selectedEl.offsetHeight / 2);
+
+      document.addEventListener("keydown", onKey, true);
+      document.addEventListener("pointerdown", onOutside, true);
+      window.addEventListener("resize", onReflow);
+      window.addEventListener("scroll", onReflow, true);
+      current = { close, panel, trigger };
+
+      requestAnimationFrame(() => {
+        panel.classList.add("is-open");
+        if (backdrop) backdrop.classList.add("is-open");
+        if (search && !sheet) search.focus({ preventScroll: true });
+      });
+    }
+
+    trigger.addEventListener("click", () => {
+      if (current && current.trigger === trigger) current.close(false);
+      else open();
+    });
+    trigger.addEventListener("keydown", (e) => {
+      if ((e.key === "ArrowDown" || e.key === "ArrowUp") && !current) { e.preventDefault(); open(); }
+    });
+    if (labelEl) {
+      labelEl.addEventListener("click", (e) => {
+        e.preventDefault();
+        trigger.focus();
+        if (!(current && current.trigger === trigger)) open();
+      });
+    }
+  }
+
+  const scan = () => document.querySelectorAll("select.select").forEach(enhance);
+  scan();
+  document.addEventListener("DOMContentLoaded", scan);
+  // selects that page scripts create later (e.g. re-rendered reminder cards)
+  new MutationObserver((records) => {
+    records.forEach((record) => record.addedNodes.forEach((node) => {
+      if (node.nodeType !== 1) return;
+      if (node.matches("select.select")) enhance(node);
+      else node.querySelectorAll("select.select").forEach(enhance);
+    }));
+  }).observe(document.body, { childList: true, subtree: true });
+})();
