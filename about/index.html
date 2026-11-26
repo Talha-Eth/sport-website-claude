@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About &amp; contact · Matchday</title>
+  <meta name="description" content="About Matchday, the nine-page IICT sports information platform — features, team, data credits and contact form.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/fonts.css">
+  <link rel="stylesheet" href="../assets/css/theme.css">
+  <script>
+    (function () {
+      try {
+        const saved = localStorage.getItem("theme");
+        const dark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        if (dark) document.documentElement.setAttribute("data-theme", "dark");
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body data-root="../" data-page="About">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header id="site-header"></header>
+
+  <main id="main">
+    <div class="wrap page">
+      <section class="about-hero" aria-labelledby="about-title">
+        <div class="about-hero-copy">
+          <span class="eyebrow">About the project</span>
+          <h1 id="about-title">Reliable football information, all in one place.</h1>
+          <p>Matchday is the Sports Information Platform proposed for our Introduction to Information &amp; Communication Technologies course: a nine-page football website that brings live scores, fixtures, league tables and player statistics together, with reminders so fans never miss kick-off.</p>
+          <div class="chip-row">
+            <span class="chip">9 pages</span>
+            <span class="chip">Football only</span>
+            <span class="chip">No sign-up</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-gold" href="../index.html">Explore matches</a>
+            <a class="btn btn-outline" href="#contact">Contact the team</a>
+          </div>
+        </div>
+        <aside class="about-hero-card" aria-label="Project snapshot">
+          <span class="about-card-label">Project snapshot</span>
+          <div class="about-hero-stats">
+            <div><strong data-stat="leagues">5</strong><span>Leagues</span></div>
+            <div><strong data-stat="teams">40</strong><span>Clubs</span></div>
+            <div><strong data-stat="players">560</strong><span>Players</span></div>
+            <div><strong data-stat="matches">280</strong><span>Matches</span></div>
+          </div>
+          <p class="about-card-note">Sample dataset built for the demo: 5 European leagues, 40 clubs, 560 players and 280 fixtures with simulated scores, line-ups and stats.</p>
+        </aside>
+      </section>
+
+      <div class="about-layout">
+        <div class="about-main">
+          <section class="panel" aria-labelledby="features-title">
+            <div class="panel-head"><h3 id="features-title">What Matchday does</h3><span class="panel-sub">Nine connected pages</span></div>
+            <div class="feature-grid">
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <h3>Live scores</h3>
+                <p>Matches are grouped as live, upcoming and finished, with the live minute refreshing on the page.</p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4.1 2.9-1.6 4.8H9.5L7.9 9.9z"/></svg>
+                </div>
+                <h3>Player stats</h3>
+                <p>Season totals and match-by-match ratings for every player, with profiles and side-by-side comparison.</p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </div>
+                <h3>Match reminders</h3>
+                <p>Save any upcoming fixture, choose email or on-site delivery and follow a live countdown.</p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </div>
+                <h3>Search &amp; filters</h3>
+                <p>Filter by league, date, team and position; sort every table and search clubs, players and matches.</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel" aria-labelledby="sitemap-title">
+            <div class="panel-head"><h3 id="sitemap-title">The nine pages</h3><span class="panel-sub">Every route works</span></div>
+            <div class="page-map">
+              <a class="page-map-item" href="../index.html"><span class="page-num">1</span><span><strong>Matches &amp; Scores Hub</strong><small>Live, upcoming and finished matches</small></span><span class="page-owner">Zain</span></a>
+              <a class="page-map-item" href="../match/index.html?id=pl-r13-1"><span class="page-num">2</span><span><strong>Match Detail</strong><small>Scoreboard, events and player stats</small></span><span class="page-owner">Zain</span></a>
+              <a class="page-map-item" href="../leagues/index.html"><span class="page-num">3</span><span><strong>Leagues &amp; Sports</strong><small>Fixtures, results and standings</small></span><span class="page-owner">Zain</span></a>
+              <a class="page-map-item" href="../team/index.html?id=arsenal"><span class="page-num">4</span><span><strong>Team Page</strong><small>Club profile, form and squad</small></span><span class="page-owner">Talha</span></a>
+              <a class="page-map-item" href="../players/index.html"><span class="page-num">5</span><span><strong>Players</strong><small>Sortable stats table with compare</small></span><span class="page-owner">Zaid</span></a>
+              <a class="page-map-item" href="../player/index.html?id=arsenal-p7"><span class="page-num">6</span><span><strong>Player Profile</strong><small>Season totals and recent matches</small></span><span class="page-owner">Zaid</span></a>
+              <a class="page-map-item" href="../compare/index.html"><span class="page-num">7</span><span><strong>Compare Players</strong><small>Side-by-side stat bars</small></span><span class="page-owner">Zaid</span></a>
+              <a class="page-map-item" href="../reminders/index.html"><span class="page-num">8</span><span><strong>My Reminders</strong><small>Countdowns, delivery and settings</small></span><span class="page-owner">Talha</span></a>
+              <a class="page-map-item" href="index.html"><span class="page-num">9</span><span><strong>About &amp; Contact</strong><small>Purpose, credits and contact form</small></span><span class="page-owner">Talha</span></a>
+            </div>
+          </section>
+
+          <section class="panel" aria-labelledby="team-title">
+            <div class="panel-head"><h3 id="team-title">Built by</h3><span class="panel-sub">BS(AI)-1A · Fall 2026</span></div>
+            <div class="team-grid">
+              <article class="member-card">
+                <div class="member-avatar">TM</div>
+                <h3>Talha Moin</h3>
+                <p class="member-role">02-136262-013</p>
+                <ul>
+                  <li>My Reminders</li>
+                  <li>Team Page</li>
+                  <li>About &amp; Contact</li>
+                </ul>
+              </article>
+              <article class="member-card">
+                <div class="member-avatar">ZK</div>
+                <h3>Zain Khan</h3>
+                <p class="member-role">02-136262-031</p>
+                <ul>
+                  <li>Matches &amp; Scores Hub</li>
+                  <li>Match Detail</li>
+                  <li>Leagues &amp; Sports</li>
+                </ul>
+              </article>
+              <article class="member-card">
+                <div class="member-avatar">ZA</div>
+                <h3>Zaid Ahmed</h3>
+                <p class="member-role">02-136262-047</p>
+                <ul>
+                  <li>Players</li>
+                  <li>Player Profile</li>
+                  <li>Compare Players</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel" id="contact" aria-labelledby="contact-title">
+            <div class="panel-head"><h3 id="contact-title">Contact us</h3><span class="panel-sub">Questions and feedback</span></div>
+            <div class="contact-grid">
+              <div>
+                <form class="contact-form" id="contact-form" novalidate>
+                  <div class="field">
+                    <label for="contact-name">Your name</label>
+                    <input class="input" id="contact-name" name="name" type="text" autocomplete="name" placeholder="Full name">
+                    <p class="form-error" data-error-for="name" hidden></p>
+                  </div>
+                  <div class="field">
+                    <label for="contact-email">Email address</label>
+                    <input class="input" id="contact-email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+                    <p class="form-error" data-error-for="email" hidden></p>
+                  </div>
+                  <div class="field">
+                    <label for="contact-message">Message</label>
+                    <textarea class="textarea" id="contact-message" name="message" placeholder="What would you like to ask or suggest?"></textarea>
+                    <p class="form-error" data-error-for="message" hidden></p>
+                  </div>
+                  <button class="btn btn-primary" type="submit">Send message</button>
+                  <p class="form-note">This demo has no back end: your message is saved in this browser so you can see the full form flow. Connect a form service such as Formspree before going live.</p>
+                </form>
+                <div class="form-success" id="contact-success" hidden>
+                  <span class="feature-icon" style="margin:0;flex:none;">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span><strong>Thanks — your message is saved.</strong><br>We will get back to you as soon as we can. <button class="link" type="button" id="contact-again" style="background:none;border:0;padding:0;font:inherit;cursor:pointer;">Send another message</button></span>
+                </div>
+              </div>
+              <div class="contact-aside">
+                <p>Use the form for questions about the project, the dataset or a school submission. We usually reply within two working days.</p>
+                <dl class="info-list">
+                  <div class="info-row"><dt>Project</dt><dd>Sports Information Platform</dd></div>
+                  <div class="info-row"><dt>Course</dt><dd>IICT</dd></div>
+                  <div class="info-row"><dt>Group</dt><dd>BS(AI)-1A</dd></div>
+                  <div class="info-row"><dt>Demo contact</dt><dd>matchday.iict@example.com</dd></div>
+                </dl>
+                <div class="notice info" style="margin-top:14px;">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                  <span>Please do not send passwords or personal data. The form is a demonstration for this coursework project.</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" aria-labelledby="concepts-title">
+            <div class="panel-head"><h3 id="concepts-title">IICT concepts in this project</h3><span class="panel-sub">Course outcomes</span></div>
+            <div class="concept-grid">
+              <div class="concept"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg><span><strong>Internet &amp; World Wide Web</strong>Client-server delivery over HTTP/HTTPS.</span></div>
+              <div class="concept"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span><strong>Web technologies</strong>HTML structure, CSS design and JavaScript interactivity.</span></div>
+              <div class="concept"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/></svg><span><strong>UI / UX design</strong>Wireframes, sitemap, navigation and responsive layouts.</span></div>
+              <div class="concept"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg><span><strong>Databases &amp; data</strong>Matches, squads, stats and reminders stored and joined.</span></div>
+              <div class="concept"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span><strong>APIs</strong>Dataset shaped for a free football data API feed.</span></div>
+              <div class="concept"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22 6 12 13 2 6"/></svg><span><strong>Communication</strong>Email and on-site delivery for match reminders.</span></div>
+              <div class="concept"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg><span><strong>Cloud &amp; hosting</strong>Designed for free static hosting and version control.</span></div>
+              <div class="concept"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span><strong>Security &amp; privacy</strong>Input checks and reminders kept on the user's device.</span></div>
+              <div class="concept"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span><strong>Data analytics</strong>Sorting, filtering and comparing player statistics.</span></div>
+              <div class="concept"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span><strong>Teamwork</strong>Three members, three pages each, shared design system.</span></div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="about-side">
+          <section class="panel" id="credits" aria-labelledby="credits-title">
+            <div class="panel-head"><h3 id="credits-title">Data &amp; credits</h3><span class="footer-badge" style="color:var(--pitch);background:var(--pitch-soft);border-color:transparent;">Sample data</span></div>
+            <div class="credits-list">
+              <div class="credit-row">
+                <span class="credit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4.1 2.9-1.6 4.8H9.5L7.9 9.9z"/></svg></span>
+                <div><h4>Match &amp; player data</h4><p>Sample dataset built for this project: 5 leagues, 40 clubs, 560 players and 280 fixtures with simulated results.</p></div>
+              </div>
+              <div class="credit-row">
+                <span class="credit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg></span>
+                <div><h4>Live data source (next phase)</h4><p>Free football API such as football-data.org or API-Football, with caching to stay inside the free tier.</p></div>
+              </div>
+              <div class="credit-row">
+                <span class="credit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+                <div><h4>Built with</h4><p>HTML5, CSS3, vanilla JavaScript and localStorage. No frameworks, no paid services, no accounts.</p></div>
+              </div>
+              <div class="credit-row">
+                <span class="credit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+                <div><h4>Club badges &amp; colours</h4><p>Crests are original inline SVG monograms using club colours for identification only; no official artwork is included.</p></div>
+              </div>
+              <div class="credit-row">
+                <span class="credit-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg></span>
+                <div><h4>Type &amp; icons</h4><p>Barlow and Barlow Condensed from Google Fonts; interface icons drawn as inline SVG by the team.</p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" aria-labelledby="details-title">
+            <div class="panel-head"><h3 id="details-title">Project details</h3></div>
+            <dl class="info-list">
+              <div class="info-row"><dt>Course</dt><dd>Introduction to ICT</dd></div>
+              <div class="info-row"><dt>Class</dt><dd>BS(AI)-1A</dd></div>
+              <div class="info-row"><dt>Semester</dt><dd>1st · Fall 2026</dd></div>
+              <div class="info-row"><dt>Deliverables</dt><dd>Proposal, progress, report</dd></div>
+              <div class="info-row"><dt>Hosting plan</dt><dd>Free static host</dd></div>
+              <div class="info-row"><dt>Repository</dt><dd>Git &amp; GitHub</dd></div>
+            </dl>
+            <p class="side-note">Built as a fully working front-end prototype for the proposal “Sports Information Platform: Live Football Scores, Player Stats &amp; Match Reminders”.</p>
+          </section>
+
+          <section class="panel" aria-labelledby="stats-title">
+            <div class="panel-head"><h3 id="stats-title">By the numbers</h3></div>
+            <div class="about-stats">
+              <div class="about-stat"><strong data-stat="leagues">5</strong><span>Leagues</span></div>
+              <div class="about-stat"><strong data-stat="teams">40</strong><span>Clubs</span></div>
+              <div class="about-stat"><strong data-stat="players">560</strong><span>Players</span></div>
+              <div class="about-stat"><strong data-stat="matches">280</strong><span>Matches</span></div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="../data/matches-data.js"></script>
+  <script src="../data/teams-data.js"></script>
+  <script src="../data/players-data.js"></script>
+  <script src="../assets/js/store.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script src="about.js"></script>
+</body>
+</html>
